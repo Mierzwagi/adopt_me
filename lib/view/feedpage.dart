@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 class feedpage extends StatefulWidget {
@@ -8,6 +10,7 @@ class feedpage extends StatefulWidget {
 }
 
 class _feedpageState extends State<feedpage> {
+  int? _value = 1;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -19,7 +22,12 @@ class _feedpageState extends State<feedpage> {
       child: Scaffold(
         appBar: AppBar(
             leading: Image.asset('assets/userprofile.png'),
-            title: const Text('Good Morning'),
+            title: const Column(
+              children: [
+                Text('Good Morning!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.pink),),
+                Text('Morning', style: TextStyle(fontSize: 15),),
+              ],
+            ),
             actions: <Widget>[
               IconButton(
                 icon: const Icon(Icons.notifications_none),
@@ -69,75 +77,135 @@ class _feedpageState extends State<feedpage> {
               children: [
                 Column(
                   children: [
-                    Container(
+                    /* Container(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
                           color: Colors.amber,
                           borderRadius: BorderRadius.circular(50)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(4.0),
+                      child: const Padding(
+                        padding: EdgeInsets.all(4.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             //  Image.asset('assets/category.png'),
                             Text("b"),
-                            const Text(
+                            Text(
                               'A',
                               style: TextStyle(color: Colors.black),
                             )
                           ],
                         ),
                       ),
-                    ),
+                    ), */
+                    Column(
+                      children: [
+                        Wrap(
+                          spacing: 34.0,
+                          children: List<Widget>.generate(
+                            4,
+                            (int index) {
+                              return ChoiceChip(
+                                selectedColor: Colors.pink,
+                                showCheckmark: false,
+                                label: Row(
+                                  children: [
+                                    Image.asset('assets/category.png'),
+                                    Text("data")
+                                  ],
+                                ),
+                                selected: _value == index,
+                                onSelected: (bool selected) {
+                                  setState(() {
+                                    _value = selected ? index : null;
+                                  });
+                                },
+                              );
+                            },
+                          ).toList(),
+                        ),
+                      ],
+                    )
                   ],
                 ),
-                Column(
-                  children: [
-                    Container(
-                      child: Row(
-                        children: [
-                          Image.asset('assets/category.png'),
-                          const Text(
-                            'Dogs',
-                            style: TextStyle(color: Colors.black),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Container(
-                      child: Row(
-                        children: [
-                          Image.asset('assets/category.png'),
-                          const Text(
-                            'Cats',
-                            style: TextStyle(color: Colors.black),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Container(
-                      child: Row(
-                        children: [
-                          Image.asset('assets/category.png'),
-                          const Text(
-                            'Rabbits',
-                            style: TextStyle(color: Colors.black),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                )
               ],
-            )
+            ),
+
+            Expanded(
+              child: GridView.builder(
+                itemCount: 10,
+                padding: const EdgeInsets.all(12.0),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  mainAxisExtent: 260,
+                  childAspectRatio: 6 / 8,
+                ),
+                itemBuilder: (BuildContext context, int index) {
+                  final math.Random random = math.Random(index);
+
+                  //Retornar os containers dos pets
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      // ignore: prefer_const_literals_to_create_immutables
+                      boxShadow: [
+                        // ignore: prefer_const_constructors
+                        BoxShadow(
+                          color: Color.fromARGB(125, 158, 158, 158),
+                          blurRadius: 10,
+                          offset: Offset(4, 8), // Shadow position
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            child: Image.asset(
+                              'assets/dog1.png',
+                              fit: BoxFit.cover,
+                              width: MediaQuery.of(context).size.width,
+                            )),
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              // ignore: unnecessary_const
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text('Kuggu'),
+                                      Icon(Icons.male),
+                                    ],
+                                  ),
+                                  Text('2 Years')
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text('Mixed Brood | Adult'),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Icon(Icons.location_on_outlined),
+                                  Text('2.7 KM Away')
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),

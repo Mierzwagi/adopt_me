@@ -23,9 +23,20 @@ class _feedpageState extends State<feedpage> {
         appBar: AppBar(
             leading: Image.asset('assets/userprofile.png'),
             title: const Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Good Morning!', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.pink),),
-                Text('Morning', style: TextStyle(fontSize: 15),),
+                Text(
+                  'Good Morning!',
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 255, 135, 171)),
+                ),
+                Text(
+                  'Morning',
+                  style: TextStyle(fontSize: 15),
+                ),
               ],
             ),
             actions: <Widget>[
@@ -100,19 +111,21 @@ class _feedpageState extends State<feedpage> {
                     Column(
                       children: [
                         Wrap(
-                          spacing: 34.0,
+                          alignment: WrapAlignment.spaceBetween,
+                          // spacing: 38.0,
                           children: List<Widget>.generate(
                             4,
                             (int index) {
                               return ChoiceChip(
-                                selectedColor: Colors.pink,
+                                shape: StadiumBorder(),
+                                side: BorderSide.none,
+                                selectedColor:
+                                    Color.fromARGB(255, 255, 135, 171),
                                 showCheckmark: false,
-                                label: Row(
-                                  children: [
-                                    Image.asset('assets/category.png'),
-                                    Text("data")
-                                  ],
+                                avatar: Image.asset(
+                                  'assets/category.png',
                                 ),
+                                label: Text("data"),
                                 selected: _value == index,
                                 onSelected: (bool selected) {
                                   setState(() {
